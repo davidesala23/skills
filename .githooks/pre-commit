@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Scan the working tree before each commit. The pre-push hook re-checks every pushed commit.
+set -euo pipefail
+exec "$(git rev-parse --show-toplevel)/scripts/check-private.sh"

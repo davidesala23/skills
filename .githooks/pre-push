@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Scan every commit about to be pushed. Installed with: git config core.hooksPath .githooks
+set -euo pipefail
+zero=0000000000000000000000000000000000000000
+root="$(git rev-parse --show-toplevel)"
+while read -r _local_ref local_sha _remote_ref remote_sha; do
+  [[ "$local_sha" == "$zero" ]] && continue
+  if [[ "$remote_sha" == "$zero" ]]; then
+    range="$local_sha"
+  else
+    range="$remote_sha..$local_sha"
+  fi
+  "$root/scripts/check-private.sh" "$range"
+done
