@@ -4,6 +4,13 @@
 
 Resume incomplete meeting receipts and retained distillations before applying the new date window. Check the configured legacy state for earlier processed document IDs, without rewriting that state. Verify the owning article's item marker when a receipt and a destination disagree.
 
+When `legacy_state_path` is configured, inspect retained recovery files under
+`runtime_dir/pending/`, including `pending/meetings/*.json` and prior staged/adjudication
+records. Reuse their source bodies, complete payloads and per-item outcomes even when
+the original event is outside the discovery window or the provider is unavailable.
+Keep disabled sources deferred. Historical task-side outcomes do not authorize new
+task writes; this flow completes only the still-missing knowledge outcomes.
+
 Group representations by actual meeting identity: normalized title plus compatible event interval, corroborated by the source metadata. A shared title alone does not merge recurring meetings. One notification, document and local recording can describe the same event; keep their IDs but do not count them as independent evidence.
 
 Prefer a complete meeting-notes document containing its transcript. Use a local recording for a missing or unusable representation, or to fill a specific coverage gap. Retain which representation supports each claim; do not silently replace old coverage with stronger claims than the new evidence allows.
